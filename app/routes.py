@@ -1,16 +1,30 @@
-from flask import request, jsonify
+from flask import jsonify, request, render_template
 from app import app
-from gensim.models import KeyedVectors
+from gensim.downloader import api
 
-# Load the word2vec model
-model = KeyedVectors.load("static/data/word2vec-google-news-300")
+#model = api.load("word2vec-google-news-300")
 
-@app.route('/get_associated_topics', methods=['POST'])
-def get_associated_topics():
-    topic = request.json.get('topic')
-    if topic:
-        related = model.most_similar(positive=[topic], topn=3)
-        related_topics = [word[0] for word in related]
-        return jsonify({"topics": related_topics})
-    return jsonify({"error": "Topic not provided"}), 400
+@app.route('/')
+def index():
+    return render_template('index.html')
 
+@app.route('/get_intermediary_topics', methods=['POST'])
+def get_intermediary_topics():
+    start_topic = request.json.get('start_topic')
+    end_topic = request.json.get('end_topic')
+    num_intermediaries = int(request.json.get('num_intermediaries', 1))
+
+    topics = [start_topic]
+
+    current_topic = start_topic
+    for _ in range(num_intermediaries):
+        try:
+            next_topic = current_topic #model.most_similar_to_given(end_topic, current_topic)#list(set(topics)))
+            topics.append(next_topic)
+            current_topic = next_topic
+        except:
+            break
+
+    topics.append(end_topic)
+
+    return jsonify({"topics": topics})

@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Conversational Topics Graph</title>
-    <link rel="stylesheet" href="static/css/styles.css">
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="static/js/script.js" defer></script>
+    <title>Conversation Topics</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <input type="text" id="inputTopic" placeholder="Enter a topic">
-    <button id="generateButton">Generate</button>
-    <div id="graph"></div>
+
+<h2>Generate Conversational Flow</h2>
+
+<label>Starting Topic: <input type="text" id="startTopic"></label><br><br>
+<label>Ending Topic: <input type="text" id="endTopic"></label><br><br>
+<label>Number of Intermediary Topics: <input type="number" id="numIntermediaries" min="1" value="1"></label><br><br>
+<button id="generateButton">Generate</button>
+
+<div id="graph"></div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="/static/js/script.js"></script>
 </body>
 </html>
-
