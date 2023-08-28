@@ -12,9 +12,10 @@
 <label>Starting Topic: <input type="text" id="startTopic"></label><br><br>
 <label>Ending Topic: <input type="text" id="endTopic"></label><br><br>
 <label>Number of Intermediary Topics: <input type="number" id="numIntermediaries" min="1" value="1"></label><br><br>
+<label>Number of Associations: <input type="number" id="numTopN" min="1" value="10"></label><br><br>
 <button id="generateButton">Generate</button>
 
-<div id="graph"></div>
+<div id="graph" class="svg-container"></div>
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="/static/js/script.js"></script>
