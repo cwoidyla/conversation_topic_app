@@ -1,6 +1,6 @@
 from flask import jsonify, request, render_template
 from app import app
-from gensim.downloader import api
+import gensim.downloader as api
 
 #model = api.load("word2vec-google-news-300")
 
@@ -16,7 +16,7 @@ def get_intermediary_topics():
 
     topics = [start_topic]
 
-    current_topic = start_topic
+    current_topic = "test" #start_topic
     for _ in range(num_intermediaries):
         try:
             next_topic = current_topic #model.most_similar_to_given(end_topic, current_topic)#list(set(topics)))
@@ -26,5 +26,6 @@ def get_intermediary_topics():
             break
 
     topics.append(end_topic)
+    print(topics)
 
     return jsonify({"topics": topics})

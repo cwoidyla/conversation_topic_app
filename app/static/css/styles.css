@@ -1,20 +1,20 @@
+/* Set the background color for the entire page */
 body {
+    background-color: white;
     font-family: Arial, sans-serif;
-    margin: 40px;
+    color: black;
+    margin: 0;
+    padding: 2rem;
 }
 
-#inputTopic {
-    padding: 10px;
-    width: 200px;
+/* Style the nodes and links for the D3 graph */
+circle {
+    fill: white;
+    stroke: black;
+    stroke-width: 2px;
 }
 
-#generateButton {
-    padding: 10px 15px;
-    margin-left: 10px;
-    cursor: pointer;
+line {
+    stroke: blue;
+    stroke-width: 1.5px;
 }
-
-#graph {
-    margin-top: 40px;
-}
-
