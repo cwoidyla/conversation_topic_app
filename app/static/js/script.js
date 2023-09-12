@@ -1,6 +1,7 @@
 document.querySelector("#generateButton").addEventListener("click", function() {
     const startTopic = document.querySelector("#startTopic").value;
     const endTopic = document.querySelector("#endTopic").value;
+    const speakerRole = document.querySelector("#speakerRole").value;
     const numIntermediaries = document.querySelector("#numIntermediaries").value;
     const numTopN = document.querySelector("#numTopN").value;
     
@@ -12,6 +13,7 @@ document.querySelector("#generateButton").addEventListener("click", function() {
         body: JSON.stringify({ 
             start_topic: startTopic, 
             end_topic: endTopic, 
+            speaker_role: speakerRole,
             num_intermediaries: numIntermediaries,
             num_top_n: numTopN
         }),
