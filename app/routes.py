@@ -1,8 +1,6 @@
 from flask import jsonify, request, render_template
 from app import app
-import gensim.downloader as api
-
-model = api.load("word2vec-google-news-300")
+from app.services import query_most_similar_to_given, query_most_similar, query_n_similarity
 
 @app.route('/')
 def index():
@@ -21,7 +19,7 @@ def get_intermediary_topics():
     # generalize comma-separated end topics
     gen_end_topic = end_topic.split(",")
     if len(gen_end_topic) > 1:
-        symbolic_end_topic = model.most_similar(positive=gen_end_topic, topn=1)[0][0]
+        symbolic_end_topic = query_most_similar(positive=gen_end_topic, topn=1)[0][0]
 
     # returned as json object
     topics = [start_topic]
@@ -37,12 +35,12 @@ def get_intermediary_topics():
                 current_topic += speaker_role.split(",")
             
             # Nearest neighbor search in semantic space
-            associated_topics = [k[0] for k in model.most_similar(positive=current_topic, topn=num_top_n)]
+            associated_topics = [k[0] for k in query_most_similar(positive=current_topic, topn=num_top_n)]
             
             # Find associated topic most similar to end topic
             accept_topic = False
             while not accept_topic:
-                next_topic = model.most_similar_to_given(symbolic_end_topic, list(set(associated_topics)))
+                next_topic = query_most_similar_to_given(symbolic_end_topic, list(set(associated_topics)))
                 associated_topics.remove(next_topic)
                 check_topic = next_topic.lower()
                 if check_topic not in prev_topics and check_topic != symbolic_end_topic:
@@ -52,8 +50,8 @@ def get_intermediary_topics():
             prev_topics.append(check_topic)
             
             # Return accepted topics and their similarity scores w.r.t. starting topic(S) and ending topic(E)
-            sim_score_start = model.n_similarity(start_topic.split(","), next_topic.split(","))
-            sim_score_end = model.n_similarity(symbolic_end_topic.split(","), next_topic.split(","))
+            sim_score_start = query_n_similarity(start_topic.split(","), next_topic.split(","))
+            sim_score_end = query_n_similarity(symbolic_end_topic.split(","), next_topic.split(","))
             topics.append(f"{next_topic} S:{sim_score_start:.2f} E:{sim_score_end:.2f}")
             
             # Set new current topic
